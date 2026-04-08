@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #pragma pack(push)
 #pragma pack(1)
@@ -144,7 +145,7 @@ typedef struct{
 }PAGE_LINK;
 
 typedef struct{
-	unsigned long int			PageId;
+	uint32_t					PageId;
 	unsigned short int			FCRUsageCount;
 	short int					Version;
 	short int					PageSize;

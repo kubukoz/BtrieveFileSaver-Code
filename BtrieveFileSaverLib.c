@@ -193,7 +193,7 @@ unsigned long int	addPage (CLIENT_STRUCT *cl, char *tmpPage, char pageType)
 		pId =  *(short*) tmpPage;
 		pUsage = (short)*(tmpPage + 6);
 	}else{
-		pId = *(unsigned long int*)tmpPage;
+		pId = *(uint32_t*)tmpPage;
 		pId &= PAGE_KICK_OFF;
 		pId = byte_swap(pId);
 		pUsage = *(signed short*)(tmpPage + 4);
@@ -394,13 +394,13 @@ unsigned short int	BF_OPEN (CLIENT_STRUCT *cl, char *fName)
 		/* read the shadow page to validate both pairs and retrieve the number of records */
 		if ((fread (&lcFCR_shadow, sizeof(FCR), 1, cl->fHandle)) != 1) return freeClient (cl, IO_ERROR);
 		if (lcFCR.FCRUsageCount > lcFCR_shadow.FCRUsageCount)
-			cl->numRecs = byte_swap (*((unsigned long*)&lcFCR.numRecs));
+			cl->numRecs = byte_swap (*((uint32_t*)&lcFCR.numRecs));
 		else
-			cl->numRecs = byte_swap (*((unsigned long*)&lcFCR_shadow.numRecs));
+			cl->numRecs = byte_swap (*((uint32_t*)&lcFCR_shadow.numRecs));
 	}else{ /* less then 6x format */ 
 		cl->fPageSize	= lcFCR.PageSize;
 		cl->VFragParam	= VFRAG_CUT_V5;
-		cl->numRecs		= byte_swap (*((unsigned long*)&lcFCR.numRecs));
+		cl->numRecs		= byte_swap (*((uint32_t*)&lcFCR.numRecs));
 	}
 
 	if (cl->fVersion >= BTRIEVE_FILE_V6 && cl->fVersion < BTRIEVE_FILE_V7){
