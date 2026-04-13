@@ -492,9 +492,10 @@ unsigned short int getNextDataPage (CLIENT_STRUCT *cl)
 
 	memset (cl->CUR_DPAGE, 0x00, cl->fPageSize);
 
-	while ((getPageType (cl, cl->CUR_DPAGE)) != DAT_PAGE_ID /*&& cPId < cl->fNumPages-2*/){
+	while ((getPageType (cl, cl->CUR_DPAGE)) != DAT_PAGE_ID){
+		if (cPId >= cl->fNumPages) return END_OF_FILE;
 		pOff = lp_pp (cl, cPId++);
-	
+
 		if (pOff > (cl->fNumPages * cl->fPageSize)) continue;
 
 		if ((retval = readPageFromFile (cl, cl->CUR_DPAGE, pOff)) != NO_ERROR) return retval;
